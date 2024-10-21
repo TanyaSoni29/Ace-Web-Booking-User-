@@ -16,6 +16,7 @@ function VehicleSelection() {
 	return (
 		<div>
 			<h2>Select Your Vehicle</h2>
+			<p>Selected Vehicle: {selectedVehicle}</p>
 			<button onClick={() => handleVehicleSelect('Saloon')}>
 				Saloon - £101.69
 			</button>
