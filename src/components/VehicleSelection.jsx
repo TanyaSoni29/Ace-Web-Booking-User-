@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { MapContainer, TileLayer, Marker, Polyline } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -8,6 +8,20 @@ import 'leaflet/dist/leaflet.css';
 function VehicleSelection() {
 	const [selectedVehicle, setSelectedVehicle] = useState(null);
 	const navigate = useNavigate();
+	const [bookingDetails, setBookingDetails] = useState({
+		from: '',
+		to: '',
+		date: '',
+		time: '',
+	});
+
+	useEffect(() => {
+		// Retrieve the booking details from localStorage
+		const details = JSON.parse(localStorage.getItem('bookingDetails'));
+		if (details) {
+			setBookingDetails(details);
+		}
+	}, []);
 
 	const vehicles = [
 		{ name: 'Saloon', price: '£101.69', passengers: 4, bags: 2, handCarry: 2 },
@@ -36,9 +50,7 @@ function VehicleSelection() {
 			<div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
 				{/* Vehicle Selection */}
 				<div className="bg-white p-6 rounded-lg shadow-lg">
-					<h2 className="text-2xl font-bold text-sky-600 mb-4">
-						Select Your Vehicle
-					</h2>
+					<h2 className="text-2xl font-bold text-sky-600 mb-4">Select Your Vehicle</h2>
 					<div className="space-y-4">
 						{vehicles.map((vehicle) => (
 							<button
@@ -68,13 +80,13 @@ function VehicleSelection() {
 					<h3 className="text-xl font-bold text-sky-600 mb-4">Booking Summary</h3>
 					<div className="mb-4 space-y-2">
 						<p className="text-gray-800">
-							<span className="font-semibold">From:</span> Town Centre, Crawley, UK
+							<span className="font-semibold">From:</span> {bookingDetails.from}
 						</p>
 						<p className="text-gray-800">
-							<span className="font-semibold">To:</span> Victoria Station, London, UK
+							<span className="font-semibold">To:</span> {bookingDetails.to}
 						</p>
 						<p className="text-gray-800">
-							<span className="font-semibold">Pickup Date & Time:</span> 22-10-2024 08:06
+							<span className="font-semibold">Pickup Date & Time:</span> {bookingDetails.date} {bookingDetails.time}
 						</p>
 						<p className="text-gray-800">
 							<span className="font-semibold">Distance:</span> 40.48 miles
@@ -111,7 +123,7 @@ function VehicleSelection() {
 						Book Now
 					</button>
 				</div>
-			</div>
+				</div>
 		</div>
 	);
 }
