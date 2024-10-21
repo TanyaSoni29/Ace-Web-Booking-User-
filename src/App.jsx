@@ -1,66 +1,50 @@
 /** @format */
 
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import LocationForm from './components/LocationForm';
 import VehicleSelection from './components/VehicleSelection';
 import BookingDetails from './components/BookingDetails';
 import Confirmation from './components/Confirmation';
 import Login from './components/Authentication/Login';
-// import ProtectedRoute from './utils/Protected';
-import StepIndicator from './components/StepIndicator';
 import BookingHistory from './components/BookingHistory';
+import BookingLayout from './components/BookingLayout';
+// import { useEffect } from 'react';
 
 function App() {
-	const location = useLocation();
-	console.log(location.pathname);
 	return (
 		<div className='h-screen w-screen overflow-hidden bg-[#F3F4F6]'>
-			{location.pathname !== '/login' && location.pathname !== '/' && (
-				<StepIndicator />
-			)}
 			<Routes>
+				{/* Login Route */}
 				<Route
 					path='/login'
 					element={<Login />}
 				/>
 
+				{/* Booking History Route - Redirect here after login */}
 				<Route
 					path='/'
 					element={<BookingHistory />}
 				/>
 
-				<Route
-					path='/locationForm'
-					element={
-						// <ProtectedRoute>
-						<LocationForm />
-						// </ProtectedRoute>
-					}
-				/>
-				<Route
-					path='/select-vehicle'
-					element={
-						// <ProtectedRoute>
-						<VehicleSelection />
-						// </ProtectedRoute>
-					}
-				/>
-				<Route
-					path='/booking-details'
-					element={
-						// <ProtectedRoute>
-						<BookingDetails />
-						// </ProtectedRoute>
-					}
-				/>
-				<Route
-					path='/confirmation'
-					element={
-						// <ProtectedRoute>
-						<Confirmation />
-						// </ProtectedRoute>
-					}
-				/>
+				{/* Booking Steps (Protected) */}
+				<Route element={<BookingLayout />}>
+					<Route
+						path='/locationForm'
+						element={<LocationForm />}
+					/>
+					<Route
+						path='/select-vehicle'
+						element={<VehicleSelection />}
+					/>
+					<Route
+						path='/booking-details'
+						element={<BookingDetails />}
+					/>
+					<Route
+						path='/confirmation'
+						element={<Confirmation />}
+					/>
+				</Route>
 			</Routes>
 		</div>
 	);
