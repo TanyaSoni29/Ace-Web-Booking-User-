@@ -2,6 +2,9 @@
 
 import { useLocation, useNavigate } from 'react-router-dom';
 
+// Import an icon library like react-icons for a tick icon
+import { FaCheck } from 'react-icons/fa';
+
 const steps = [
 	{ path: '/', label: 'Location' },
 	{ path: '/select-vehicle', label: 'Vehicle Selection' },
@@ -26,24 +29,35 @@ const StepIndicator = () => {
 					className='flex items-center'
 				>
 					<div
-						className={`cursor-pointer ${
+						className={`flex items-center cursor-pointer ${
 							index < currentStepIndex
 								? 'text-green-600 font-bold' // Completed steps are green
 								: index === currentStepIndex
-								? 'text-gray-600 font-bold' // Current step is blue
+								? 'text-gray-600 font-bold' // Current step is gray
 								: 'text-gray-500' // Incomplete steps are gray
 						}`}
 						onClick={() => navigate(step.path)}
 					>
-						{index + 1}. {step.label}
+						<div
+							className={`flex items-center justify-center rounded-full w-8 h-8 p-2 border-[2px] ${
+								index < currentStepIndex
+									? 'border-green-600' // Green border for completed steps
+									: 'border-gray-600' // Gray border for current and upcoming steps
+							}`}
+						>
+							{index < currentStepIndex ? (
+								<FaCheck className='text-green-600' /> // Display a tick icon for completed steps
+							) : (
+								<span>{index + 1}</span> // Display the step number for current and incomplete steps
+							)}
+						</div>
+						<span className='ml-2'>{step.label}</span>
 					</div>
 					{index < steps.length - 1 && (
 						<div
 							className={`w-[200px] h-[2px] ml-2 ${
 								index < currentStepIndex
 									? 'bg-green-600' // Line is green for completed steps
-									: index === currentStepIndex
-									? 'bg-gray-600' // Line is blue for current step
 									: 'bg-gray-500' // Line is gray for incomplete steps
 							}`}
 						></div>
