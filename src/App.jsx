@@ -11,7 +11,7 @@ import StepIndicator from './components/StepIndicator';
 
 function App() {
 	return (
-		<div>
+		<div className='h-screen w-screen overflow-hidden bg-[#F3F4F6]'>
 			<StepIndicator />
 			<Routes>
 				<Route

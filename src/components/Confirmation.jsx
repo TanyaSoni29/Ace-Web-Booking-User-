@@ -10,7 +10,7 @@ function Confirmation() {
 	const bookingDate = '21-10-2024 09:52'; // Example date for the booking confirmation
 
 	return (
-		<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-sky-400 to-blue-500">
+		<div className="flex items-center justify-center min-h-screen bg-[#F3F4F6]">
 			<div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-2xl w-full max-w-4xl space-y-6">
 				<h2 className="text-2xl font-bold text-sky-700 mb-6">
 					Booking Confirmation:{" "}

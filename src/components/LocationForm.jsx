@@ -20,9 +20,9 @@ function LocationForm() {
 	};
 
 	return (
-		<div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-sky-400 to-blue-500">
-			<div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-2xl w-full max-w-md">
-				<div className="flex justify-between mb-4">
+		<div className='flex items-center justify-center min-h-screen bg-[#F3F4F6]'>
+			<div className='bg-white bg-opacity-90 p-8 rounded-xl shadow-2xl w-full max-w-md'>
+				<div className='flex justify-between mb-4'>
 					<button
 						className={`flex-1 py-2 text-center rounded-tl-lg ${
 							isDistance ? 'bg-red-500 text-white' : 'bg-white text-gray-700'
@@ -40,10 +40,10 @@ function LocationForm() {
 						Hourly
 					</button>
 				</div>
-				<div className="space-y-4">
+				<div className='space-y-4'>
 					<input
-						type="text"
-						placeholder="From"
+						type='text'
+						placeholder='From'
 						value={from}
 						onChange={(e) => setFrom(e.target.value)}
 						className={`w-full px-4 py-3 rounded-lg focus:outline-none ${
@@ -52,8 +52,8 @@ function LocationForm() {
 					/>
 					{isDistance ? (
 						<input
-							type="text"
-							placeholder="To"
+							type='text'
+							placeholder='To'
 							value={to}
 							onChange={(e) => setTo(e.target.value)}
 							className={`w-full px-4 py-3 rounded-lg focus:outline-none ${
@@ -62,45 +62,45 @@ function LocationForm() {
 						/>
 					) : (
 						<select
-							className="w-full px-4 py-3 rounded-lg focus:outline-none bg-white text-sky-700 border border-sky-300 focus:border-sky-500"
+							className='w-full px-4 py-3 rounded-lg focus:outline-none bg-white text-sky-700 border border-sky-300 focus:border-sky-500'
 							value={to}
 							onChange={(e) => setTo(e.target.value)}
 						>
-							<option value="">Select Hours</option>
-							<option value="2 Hours">2 Hours</option>
-							<option value="4 Hours">4 Hours</option>
-							<option value="6 Hours">6 Hours</option>
-							<option value="8 Hours">8 Hours</option>
+							<option value=''>Select Hours</option>
+							<option value='2 Hours'>2 Hours</option>
+							<option value='4 Hours'>4 Hours</option>
+							<option value='6 Hours'>6 Hours</option>
+							<option value='8 Hours'>8 Hours</option>
 						</select>
 					)}
-					<div className="grid grid-cols-2 gap-4">
-						<div className="relative">
+					<div className='grid grid-cols-2 gap-4'>
+						<div className='relative'>
 							<input
-								type="date"
+								type='date'
 								value={date}
 								onChange={(e) => setDate(e.target.value)}
 								className={`w-full px-4 py-3 rounded-lg focus:outline-none ${
 									date ? 'bg-sky-700 text-white' : 'bg-white text-sky-700'
 								} border border-sky-300 focus:border-sky-500`}
 							/>
-							<i className="fa fa-calendar absolute right-4 top-1/2 transform -translate-y-1/2 text-sky-500 pointer-events-none"></i>
+							<i className='fa fa-calendar absolute right-4 top-1/2 transform -translate-y-1/2 text-sky-500 pointer-events-none'></i>
 						</div>
-						<div className="relative">
+						<div className='relative'>
 							<input
-								type="time"
+								type='time'
 								value={time}
 								onChange={(e) => setTime(e.target.value)}
 								className={`w-full px-4 py-3 rounded-lg focus:outline-none ${
 									time ? 'bg-sky-700 text-white' : 'bg-white text-sky-700'
 								} border border-sky-300 focus:border-sky-500`}
 							/>
-							<i className="fa fa-clock absolute right-4 top-1/2 transform -translate-y-1/2 text-sky-500 pointer-events-none"></i>
+							<i className='fa fa-clock absolute right-4 top-1/2 transform -translate-y-1/2 text-sky-500 pointer-events-none'></i>
 						</div>
 					</div>
 				</div>
 				<button
 					onClick={handleSubmit}
-					className="mt-6 w-full bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 transition duration-300 shadow-lg"
+					className='mt-6 w-full bg-sky-600 text-white py-3 rounded-lg hover:bg-sky-700 transition duration-300 shadow-lg'
 				>
 					Search
 				</button>
