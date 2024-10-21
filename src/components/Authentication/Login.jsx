@@ -1,102 +1,73 @@
 /** @format */
 
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
-import './AuthForm.css'; // Import the CSS file for styles
-import { useDispatch } from 'react-redux';
-// import toast from 'react-hot-toast';
-import { login, signUp } from '../service/operations/authApi';
+import { useNavigate } from 'react-router-dom';
 
 const AuthForm = () => {
-	const [isSignUp, setIsSignUp] = useState(false); // State to toggle between SignIn and SignUp forms
+	const [isSignUp, setIsSignUp] = useState(false);
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
 		confirmPassword: '',
 	});
-	const dispatch = useDispatch();
-	const navigate = useNavigate(); // Initialize the useNavigate hook
 
-	// Toggle form view
+	const navigate = useNavigate();
+
 	const toggleForm = (e) => {
-		e.preventDefault(); // Prevent default link behavior
+		e.preventDefault();
 		setIsSignUp(!isSignUp);
-		setFormData({ email: '', password: '', confirmPassword: '' }); // Clear form data
+		setFormData({ email: '', password: '', confirmPassword: '' });
 	};
 
-	// Handle form data changes
 	const handleChange = (e) => {
 		setFormData({ ...formData, [e.target.name]: e.target.value });
 	};
 
-	// Handle form submission
 	const handleSubmit = (e) => {
-		e.preventDefault(); // Prevent form submission
-		// const emailPattern = /^[^\s@]+@[^\s@]+\[^\s@]+$/; // Simple email pattern
-		// if (!emailPattern.test(formData.email)) {
-		// 	toast.error('Please enter a valid email address.');
-		// 	return;
-		// }
-		// Validation for Sign-Up form
+		e.preventDefault();
+
+		// Add validation logic here as needed...
 		if (isSignUp) {
-			// Check if password has a minimum length of 6 characters
 			if (formData.password.length < 6) {
-				// toast.error('Password must be at least 6 characters long.');
 				console.log('Password too short');
-				return; // Prevent form submission if password length is invalid
+				return;
 			}
 
-			// Check if password and confirmPassword match
 			if (formData.password !== formData.confirmPassword) {
-				// toast.error("Passwords don't match.");
 				console.log('Passwords do not match');
-				return; // Prevent form submission if passwords don't match
+				return;
 			}
 
-			// Sign-Up logic goes here
 			console.log('Sign Up data:', formData);
-			// toast.success('Signed up successfully!');
 		} else {
-			// Validation for Sign-In form
 			if (!formData.email || !formData.password) {
-				// toast.error('Please provide email and password.');
 				console.log('Missing email or password');
-				return; // Prevent form submission if email or password is missing
-			}
-
-			// Sign-In logic goes here
-			if (!isSignUp) {
-				dispatch(login(formData.email, formData.password, navigate));
-				// toast.success('Logged in successfully!');
-			} else {
-				const newData = {
-					email: formData.email,
-					password: formData.password,
-					confirmPassword: formData.confirmPassword,
-				};
-				dispatch(signUp(newData, navigate));
-				// toast.success('Register successfully!');
+				return;
 			}
 
 			console.log('Sign In data:', formData);
 		}
 
-		// Redirect to / after successful form submission
 		navigate('/');
 	};
 
 	return (
-		<div className='auth-container'>
-			<div className='content-wrapper'>
-				<div className='form-container'>
-					<h2 className='form-title'>{isSignUp ? 'Sign up' : 'Sign in'}</h2>
+		<div className='flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat'>
+			<div className='flex justify-center items-center w-full md:w-[40vh] p-4 md:p-0 backdrop-blur-lg rounded-lg'>
+				<div className='bg-white bg-opacity-85 rounded-lg w-full shadow-lg p-6 flex flex-col items-center'>
+					<h2 className='text-2xl text-blue-700 font-bold mb-6'>
+						{isSignUp ? 'Sign up' : 'Sign in'}
+					</h2>
 
-					<form onSubmit={handleSubmit}>
+					<form
+						onSubmit={handleSubmit}
+						className='w-full flex flex-col items-center'
+					>
 						<input
 							type='email'
 							name='email'
 							placeholder='Enter your email'
-							className='input-field'
+							className='w-5/6 p-3 mb-4 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-700'
 							value={formData.email}
 							onChange={handleChange}
 							required
@@ -105,7 +76,7 @@ const AuthForm = () => {
 							type='password'
 							name='password'
 							placeholder='Enter your password'
-							className='input-field'
+							className='w-5/6 p-3 mb-4 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-700'
 							value={formData.password}
 							onChange={handleChange}
 							required
@@ -115,7 +86,7 @@ const AuthForm = () => {
 								type='password'
 								name='confirmPassword'
 								placeholder='Confirm your password'
-								className='input-field'
+								className='w-5/6 p-3 mb-4 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-700'
 								value={formData.confirmPassword}
 								onChange={handleChange}
 								required
@@ -123,29 +94,34 @@ const AuthForm = () => {
 						)}
 						<button
 							type='submit'
-							className='auth-button'
+							className='bg-blue-700 text-white py-3 w-5/6 rounded font-bold hover:bg-gray-800 transition duration-300'
 						>
 							{isSignUp ? 'Sign up' : 'Sign in'}
 						</button>
 					</form>
 
-					<p className='toggle-text'>
+					<p className='mt-4 text-sm'>
 						{isSignUp ? (
 							<>
 								Already have an account?{' '}
 								<a
 									href='#'
 									onClick={toggleForm}
+									className='text-blue-700 hover:underline'
 								>
 									Sign in
 								</a>
 							</>
 						) : (
 							<>
+								Don’t have an account?{' '}
 								<a
 									href='#'
 									onClick={toggleForm}
-								></a>
+									className='text-blue-700 hover:underline'
+								>
+									Sign up
+								</a>
 							</>
 						)}
 					</p>

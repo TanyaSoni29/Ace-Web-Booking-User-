@@ -5,25 +5,47 @@ import LocationForm from './components/LocationForm';
 import VehicleSelection from './components/VehicleSelection';
 import BookingDetails from './components/BookingDetails';
 import Confirmation from './components/Confirmation';
+import Login from './components/Authentication/Login';
+// import ProtectedRoute from './utils/Protected';
 
 function App() {
 	return (
 		<Routes>
 			<Route
+				path='/login'
+				element={<Login />}
+			/>
+			<Route
 				path='/'
-				element={<LocationForm />}
+				element={
+					// <ProtectedRoute>
+					<LocationForm />
+					// </ProtectedRoute>
+				}
 			/>
 			<Route
 				path='/select-vehicle'
-				element={<VehicleSelection />}
+				element={
+					// <ProtectedRoute>
+					<VehicleSelection />
+					// </ProtectedRoute>
+				}
 			/>
 			<Route
 				path='/booking-details'
-				element={<BookingDetails />}
+				element={
+					// <ProtectedRoute>
+					<BookingDetails />
+					// </ProtectedRoute>
+				}
 			/>
 			<Route
 				path='/confirmation'
-				element={<Confirmation />}
+				element={
+					// <ProtectedRoute>
+					<Confirmation />
+					// </ProtectedRoute>
+				}
 			/>
 		</Routes>
 	);
