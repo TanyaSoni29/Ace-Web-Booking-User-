@@ -25,7 +25,7 @@ function LocationForm() {
 				<div className='flex justify-between mb-4'>
 					<button
 						className={`flex-1 py-2 text-center rounded-tl-lg ${
-							isDistance ? 'bg-red-500 text-white' : 'bg-white text-gray-700'
+							isDistance ? 'bg-[#0369A1] text-white' : 'bg-white text-gray-700'
 						}`}
 						onClick={() => setIsDistance(true)}
 					>
@@ -33,7 +33,7 @@ function LocationForm() {
 					</button>
 					<button
 						className={`flex-1 py-2 text-center rounded-tr-lg ${
-							!isDistance ? 'bg-red-500 text-white' : 'bg-white text-gray-700'
+							!isDistance ? 'bg-[#0369A1] text-white' : 'bg-white text-gray-700'
 						}`}
 						onClick={() => setIsDistance(false)}
 					>
