@@ -12,9 +12,26 @@ function BookingDetails() {
 	const [pickupSign, setPickupSign] = useState('');
 	const [notes, setNotes] = useState('');
 	const [paymentMethod, setPaymentMethod] = useState('Cash');
+	const [errors, setErrors] = useState({});
 	const navigate = useNavigate();
 
 	const handleCheckout = () => {
+		const validationErrors = {};
+
+		// Validate mandatory fields
+		if (!firstName.trim()) validationErrors.firstName = 'First Name is required';
+		if (!lastName.trim()) validationErrors.lastName = 'Last Name is required';
+		if (!email.trim()) validationErrors.email = 'Email is required';
+		if (!phone.trim()) validationErrors.phone = 'Phone Number is required';
+		if (!paymentMethod) validationErrors.paymentMethod = 'Payment Method is required';
+
+		// If there are validation errors, update the state
+		if (Object.keys(validationErrors).length > 0) {
+			setErrors(validationErrors);
+			return;
+		}
+
+		// If no errors, proceed to store the data and navigate to confirmation
 		const userDetails = {
 			firstName,
 			lastName,
@@ -44,8 +61,11 @@ function BookingDetails() {
 							placeholder="Your First Name"
 							value={firstName}
 							onChange={(e) => setFirstName(e.target.value)}
-							className="w-full px-4 py-3 mb-4 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+							className="w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
 						/>
+						{errors.firstName && (
+							<p className="text-red-500 text-sm">{errors.firstName}</p>
+						)}
 					</div>
 					<div>
 						<label className="block text-sky-600 mb-2">Last Name*</label>
@@ -54,8 +74,11 @@ function BookingDetails() {
 							placeholder="Your Last Name"
 							value={lastName}
 							onChange={(e) => setLastName(e.target.value)}
-							className="w-full px-4 py-3 mb-4 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+							className="w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
 						/>
+						{errors.lastName && (
+							<p className="text-red-500 text-sm">{errors.lastName}</p>
+						)}
 					</div>
 					<div>
 						<label className="block text-sky-600 mb-2">Email*</label>
@@ -64,8 +87,11 @@ function BookingDetails() {
 							placeholder="Your Email Address"
 							value={email}
 							onChange={(e) => setEmail(e.target.value)}
-							className="w-full px-4 py-3 mb-4 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+							className="w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
 						/>
+						{errors.email && (
+							<p className="text-red-500 text-sm">{errors.email}</p>
+						)}
 					</div>
 					<div>
 						<label className="block text-sky-600 mb-2">Phone Number*</label>
@@ -74,8 +100,11 @@ function BookingDetails() {
 							placeholder="Your Phone Number"
 							value={phone}
 							onChange={(e) => setPhone(e.target.value)}
-							className="w-full px-4 py-3 mb-4 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+							className="w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
 						/>
+						{errors.phone && (
+							<p className="text-red-500 text-sm">{errors.phone}</p>
+						)}
 					</div>
 				</div>
 
@@ -132,11 +161,6 @@ function BookingDetails() {
 								className="form-radio text-sky-600 focus:ring-sky-500"
 							/>
 							<span className="ml-2 text-sky-600">Cash</span>
-							<img
-								src="/path-to-cash-payment-image.png"
-								alt="Cash Payment"
-								className="ml-2 w-16 h-auto"
-							/>
 						</label>
 						<label className="flex items-center">
 							<input
@@ -147,13 +171,11 @@ function BookingDetails() {
 								className="form-radio text-sky-600 focus:ring-sky-500"
 							/>
 							<span className="ml-2 text-sky-600">Card</span>
-							<img
-								src="/path-to-card-payment-image.png"
-								alt="Card Payment"
-								className="ml-2 w-16 h-auto"
-							/>
 						</label>
 					</div>
+					{errors.paymentMethod && (
+						<p className="text-red-500 text-sm">{errors.paymentMethod}</p>
+					)}
 				</div>
 
 				<button
