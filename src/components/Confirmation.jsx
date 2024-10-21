@@ -14,6 +14,31 @@ function Confirmation() {
 	const bookingDate = '21-10-2024 09:52';
 
 	const handleFinish = () => {
+		// Prepare the complete booking information
+		const newBooking = {
+			reservationNumber,
+			date: bookingDetails.date,
+			time: bookingDetails.time,
+			from: bookingDetails.from,
+			to: bookingDetails.to,
+			vehicleName: selectedVehicle?.name || 'N/A',
+			price: selectedVehicle?.price || '£0.00',
+			paymentMethod: userDetails.paymentMethod,
+			firstName: userDetails.firstName,
+			lastName: userDetails.lastName,
+			phone: userDetails.phone,
+			email: userDetails.email,
+			flightNumber: userDetails.flightNumber || 'N/A',
+			pickupSign: userDetails.pickupSign || 'N/A',
+			notes: userDetails.notes || 'N/A',
+			bookingDate,
+		};
+
+		// Retrieve existing history or create a new array
+		const storedHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+		storedHistory.push(newBooking);
+		localStorage.setItem('bookingHistory', JSON.stringify(storedHistory));
+
 		// Navigate back to the location form or any starting point
 		navigate('/');
 	};
@@ -117,7 +142,7 @@ function Confirmation() {
 
 				{/* Important Information */}
 				<div className="p-4 border-t border-gray-200 mt-6 bg-white rounded-lg shadow-sm">
-					<h4 className="font-semibold text-sky-700">
+					<h4 className="font-medium text-sky-700">
 						Important Information for Your Reservation:
 					</h4>
 					<ul className="list-disc list-inside text-gray-600 mt-2 space-y-1">
