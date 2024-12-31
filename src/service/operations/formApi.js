@@ -1,82 +1,72 @@
+/** @format */
+
 import { apiConnector } from '../apiConnector';
 import { bookingformEndpoints } from '../api';
+import { AUTH_TOKEN } from '../authConfig'; // Import the token
 
-const { GET_ALL_FORMS, GET_FORM_BY_ID, CREATE_FORM, UPDATE_FORM, DELETE_FORM } =
-  bookingformEndpoints;
+const { GET_ALL_FORMS, CREATE_FORM } = bookingformEndpoints;
 
 // Fetch all forms
 export const getAllForms = async (token) => {
-  try {
-    const response = await apiConnector('GET', GET_ALL_FORMS, null, {
-      Authorization: `Bearer ${token}`,
-    });
+	try {
+		const response = await apiConnector('GET', GET_ALL_FORMS, null, {
+			Authorization: `Bearer ${token}`,
+		});
 
-    console.log('Get All Forms API Response:', response);
-    return response.data;
-  } catch (error) {
-    console.error('Get All Forms API Error:', error);
-    return [];
-  }
+		console.log('Get All Forms API Response:', response);
+		return response.data;
+	} catch (error) {
+		console.error('Get All Forms API Error:', error);
+		return [];
+	}
 };
 
-// Fetch a form by ID
-export const getFormById = async (token, id) => {
-  try {
-    const response = await apiConnector('GET', GET_FORM_BY_ID(id), null, {
-      Authorization: `Bearer ${token}`,
-    });
+export const createForm = async (data) => {
+	try {
+		const payload = {
+			request: {
+				details: data.details,
+				email: data.email,
+				durationText: Number(data.durationText)
+					? String(data.durationText)
+					: '0',
+				// durationMinutes: data.durationText ? +data.durationText : 0,
+				durationMinutes: data.durationMinutes || 10,
+				isAllDay: data.isAllDay,
+				passengerName: data.passengerName,
+				passengers: data.passengers,
+				paymentStatus: data.paymentStatus || 0,
+				scope: data.scope,
+				phoneNumber: data.phoneNumber,
+				pickupAddress: data.pickupAddress,
+				pickupDateTime: data.pickupDateTime,
+				pickupPostCode: data.pickupPostCode,
+				destinationAddress: data.destinationAddress,
+				destinationPostCode: data.destinationPostCode,
+				recurrenceRule: data.recurrenceRule || null,
+				recurrenceID: data.recurrenceID || null,
+				price: data.price,
+				priceAccount: data.priceAccount || 0,
+				chargeFromBase: data.chargeFromBase || false,
+				userId: data.userId || null,
+				returnDateTime: data.returnDateTime || null,
+				// vias: filterVias(data),
+				accountNumber: data.accountNumber || 2222,
+				bookedByName: data.bookedByName || '',
+				bookingId: data.bookingId || null,
+				updatedByName: data.updatedByName || '',
+				isASAP: data.isASAP || false,
+			},
+		};
 
-    console.log('Get Form By ID API Response:', response);
-    return response.data;
-  } catch (error) {
-    console.error('Get Form By ID API Error:', error);
-  }
-};
+		const response = await apiConnector('POST', CREATE_FORM, payload, {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${AUTH_TOKEN}`, // Use centralized token
+		});
 
-// Create a new form
-export const createForm = async (token, data) => {
-  try {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data', // Supports file uploads
-    };
-
-    const response = await apiConnector('POST', CREATE_FORM, data, headers);
-
-    console.log('Create Form API Response:', response);
-    return response.data;
-  } catch (error) {
-    console.error('Create Form API Error:', error);
-  }
-};
-
-// Update a form
-export const updateForm = async (token, id, data) => {
-  try {
-    const headers = {
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'multipart/form-data', // Supports file uploads
-    };
-
-    const response = await apiConnector('PUT', UPDATE_FORM(id), data, headers);
-
-    console.log('Update Form API Response:', response);
-    return response.data;
-  } catch (error) {
-    console.error('Update Form API Error:', error);
-  }
-};
-
-// Delete a form
-export const deleteForm = async (token, id) => {
-  try {
-    const response = await apiConnector('DELETE', DELETE_FORM(id), null, {
-      Authorization: `Bearer ${token}`,
-    });
-
-    console.log('Delete Form API Response:', response);
-    return response.data;
-  } catch (error) {
-    console.error('Delete Form API Error:', error);
-  }
+		return response.data; // Return the response data
+	} catch (error) {
+		console.error('Error submitting form:', error);
+		throw error; // Rethrow the error for handling in the calling component
+	}
 };

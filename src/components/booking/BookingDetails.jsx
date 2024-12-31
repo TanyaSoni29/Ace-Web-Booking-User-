@@ -1,11 +1,21 @@
 /** @format */
 
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { createForm } from '../../service/operations/formApi'; // API call
+import { resetFormData } from '../../slices/formSlice'; // Redux action to reset form data
 
 function BookingDetails() {
-	const [firstName, setFirstName] = useState('');
-	const [lastName, setLastName] = useState('');
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+
+	// Fetch booking details from Redux (data from previous forms)
+	const bookingDetails = useSelector((state) => state.forms.form || {});
+
+	// Local state for current form fields
+	const [bookedByName, setbookedByName] = useState('');
+	//   const [lastName, setLastName] = useState("");
 	const [email, setEmail] = useState('');
 	const [phone, setPhone] = useState('');
 	const [flightNumber, setFlightNumber] = useState('');
@@ -13,44 +23,54 @@ function BookingDetails() {
 	const [notes, setNotes] = useState('');
 	const [paymentMethod, setPaymentMethod] = useState('Cash');
 	const [errors, setErrors] = useState({});
-	const navigate = useNavigate();
 
-	const handleCheckout = () => {
+	// Handle form validation and submission
+	const handleCheckout = async () => {
 		const validationErrors = {};
-	  
+
 		// Validate mandatory fields
-		if (!firstName.trim())
-		  validationErrors.firstName = "First Name is required";
-		if (!lastName.trim()) validationErrors.lastName = "Last Name is required";
-		if (!email.trim()) validationErrors.email = "Email is required";
-		if (!phone.trim()) validationErrors.phone = "Phone Number is required";
+		if (!bookedByName.trim())
+			validationErrors.bookedByName = 'First Name is required';
+		// if (!lastName.trim()) validationErrors.lastName = "Last Name is required";
+		if (!email.trim()) validationErrors.email = 'Email is required';
+		if (!phone.trim()) validationErrors.phone = 'Phone Number is required';
 		if (!paymentMethod)
-		  validationErrors.paymentMethod = "Payment Method is required";
-	  
+			validationErrors.paymentMethod = 'Payment Method is required';
+
 		// If there are validation errors, update the state
 		if (Object.keys(validationErrors).length > 0) {
-		  setErrors(validationErrors);
-		  return;
+			setErrors(validationErrors);
+			return;
 		}
-	  
-		// Transform data to match `prepareBookingPayload`
+
+		// Combine data from Redux with the current form's data
 		const payload = {
-		  details: `${firstName} ${lastName}`, // Combine first and last name
-		  email: email,
-		  phoneNumber: phone, // Rename `phone` to `phoneNumber`
-		  flightNumber: flightNumber || null, // Optional field
-		  pickupSign: pickupSign || null, // Optional field
-		  paymentStatus: paymentMethod === "Cash" ? 0 : 1, // Map payment method
-		  notes: notes || null, // Optional field
+			...bookingDetails, // Data from previous forms
+			bookedByName,
+			//   lastName,
+			email,
+			phoneNumber: phone,
+			flightNumber: flightNumber || null,
+			pickupSign: pickupSign || null,
+			paymentStatus: paymentMethod === 'Cash' ? 0 : 1,
+			notes: notes || null,
 		};
-	  
-		console.log("Payload to be submitted:", payload);
-	  
-		// Store data locally or navigate to the next step
-		localStorage.setItem("userDetails", JSON.stringify(payload));
-		navigate("/confirmation");
-	  };
-	  
+
+		try {
+			// Submit the combined payload to the API
+			const response = await createForm(payload);
+			console.log('Form submitted successfully:', response);
+
+			// Reset Redux form state after successful submission
+			dispatch(resetFormData());
+
+			// Navigate to confirmation page
+			navigate('/confirmation');
+		} catch (error) {
+			console.error('Error submitting form:', error);
+			alert('Failed to submit form. Please try again.');
+		}
+	};
 
 	return (
 		<div className='flex items-center justify-center min-h-screen bg-[#F3F4F6]'>
@@ -59,33 +79,32 @@ function BookingDetails() {
 					Enter Your Details
 				</h2>
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-					{/* Passenger Information */}
 					<div>
 						<label className='block text-sky-600 mb-2'>First Name*</label>
 						<input
 							type='text'
 							placeholder='Your First Name'
-							value={firstName}
-							onChange={(e) => setFirstName(e.target.value)}
+							value={bookedByName}
+							onChange={(e) => setbookedByName(e.target.value)}
 							className='w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
 						/>
-						{errors.firstName && (
-							<p className='text-red-500 text-sm'>{errors.firstName}</p>
+						{errors.bookedByName && (
+							<p className='text-red-500 text-sm'>{errors.bookedByName}</p>
 						)}
 					</div>
-					<div>
-						<label className='block text-sky-600 mb-2'>Last Name*</label>
-						<input
-							type='text'
-							placeholder='Your Last Name'
-							value={lastName}
-							onChange={(e) => setLastName(e.target.value)}
-							className='w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
-						/>
-						{errors.lastName && (
-							<p className='text-red-500 text-sm'>{errors.lastName}</p>
-						)}
-					</div>
+					{/* <div>
+            <label className="block text-sky-600 mb-2">Last Name*</label>
+            <input
+              type="text"
+              placeholder="Your Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              className="w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+            />
+            {errors.lastName && (
+              <p className="text-red-500 text-sm">{errors.lastName}</p>
+            )}
+          </div> */}
 					<div>
 						<label className='block text-sky-600 mb-2'>Email*</label>
 						<input
@@ -141,9 +160,7 @@ function BookingDetails() {
 							/>
 						</div>
 						<div className='md:col-span-2'>
-							<label className='block text-sky-600 mb-2'>
-								Notes to Chauffeur
-							</label>
+							<label className='block text-sky-600 mb-2'>Notes</label>
 							<textarea
 								placeholder='Write here...'
 								value={notes}
