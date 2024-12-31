@@ -17,36 +17,40 @@ function BookingDetails() {
 
 	const handleCheckout = () => {
 		const validationErrors = {};
-
+	  
 		// Validate mandatory fields
 		if (!firstName.trim())
-			validationErrors.firstName = 'First Name is required';
-		if (!lastName.trim()) validationErrors.lastName = 'Last Name is required';
-		if (!email.trim()) validationErrors.email = 'Email is required';
-		if (!phone.trim()) validationErrors.phone = 'Phone Number is required';
+		  validationErrors.firstName = "First Name is required";
+		if (!lastName.trim()) validationErrors.lastName = "Last Name is required";
+		if (!email.trim()) validationErrors.email = "Email is required";
+		if (!phone.trim()) validationErrors.phone = "Phone Number is required";
 		if (!paymentMethod)
-			validationErrors.paymentMethod = 'Payment Method is required';
-
+		  validationErrors.paymentMethod = "Payment Method is required";
+	  
 		// If there are validation errors, update the state
 		if (Object.keys(validationErrors).length > 0) {
-			setErrors(validationErrors);
-			return;
+		  setErrors(validationErrors);
+		  return;
 		}
-
-		// If no errors, proceed to store the data and navigate to confirmation
-		const userDetails = {
-			firstName,
-			lastName,
-			email,
-			phone,
-			flightNumber,
-			pickupSign,
-			notes,
-			paymentMethod,
+	  
+		// Transform data to match `prepareBookingPayload`
+		const payload = {
+		  details: `${firstName} ${lastName}`, // Combine first and last name
+		  email: email,
+		  phoneNumber: phone, // Rename `phone` to `phoneNumber`
+		  flightNumber: flightNumber || null, // Optional field
+		  pickupSign: pickupSign || null, // Optional field
+		  paymentStatus: paymentMethod === "Cash" ? 0 : 1, // Map payment method
+		  notes: notes || null, // Optional field
 		};
-		localStorage.setItem('userDetails', JSON.stringify(userDetails));
-		navigate('/confirmation');
-	};
+	  
+		console.log("Payload to be submitted:", payload);
+	  
+		// Store data locally or navigate to the next step
+		localStorage.setItem("userDetails", JSON.stringify(payload));
+		navigate("/confirmation");
+	  };
+	  
 
 	return (
 		<div className='flex items-center justify-center min-h-screen bg-[#F3F4F6]'>

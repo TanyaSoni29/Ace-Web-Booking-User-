@@ -1,13 +1,12 @@
-/** @format */
 
 import { Route, Routes } from 'react-router-dom';
-import LocationForm from './components/LocationForm';
-import VehicleSelection from './components/VehicleSelection';
-import BookingDetails from './components/BookingDetails';
-import Confirmation from './components/Confirmation';
+import LocationForm from './components/booking/LocationForm';
+import VehicleSelection from './components/booking/VehicleSelection';
+import BookingDetails from './components/booking/BookingDetails';
+import Confirmation from './components/booking/Confirmation';
 import Login from './components/Authentication/Login';
-import BookingHistory from './components/BookingHistory';
-import BookingLayout from './components/BookingLayout';
+import BookingHistory from './components/booking/BookingHistory';
+import BookingLayout from './components/booking/BookingLayout';
 // import { useEffect } from 'react';
 
 function App() {

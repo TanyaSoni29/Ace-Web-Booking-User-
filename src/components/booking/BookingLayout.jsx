@@ -1,7 +1,7 @@
 /** @format */
 
 import { Outlet } from 'react-router-dom';
-import StepIndicator from './StepIndicator';
+import StepIndicator from '../booking/StepIndicator';
 
 const BookingLayout = () => {
 	return (

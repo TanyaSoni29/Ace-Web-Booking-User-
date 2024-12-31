@@ -1,5 +1,3 @@
-/** @format */
-
 import { useLocation, useNavigate } from 'react-router-dom';
 
 // Import an icon library like react-icons for a tick icon
