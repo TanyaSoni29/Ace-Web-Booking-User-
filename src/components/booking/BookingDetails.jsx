@@ -80,10 +80,10 @@ function BookingDetails() {
 				</h2>
 				<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
 					<div>
-						<label className='block text-sky-600 mb-2'>First Name*</label>
+						<label className='block text-sky-600 mb-2'>Name*</label>
 						<input
 							type='text'
-							placeholder='Your First Name'
+							placeholder='Your Name'
 							value={bookedByName}
 							onChange={(e) => setbookedByName(e.target.value)}
 							className='w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
@@ -92,19 +92,6 @@ function BookingDetails() {
 							<p className='text-red-500 text-sm'>{errors.bookedByName}</p>
 						)}
 					</div>
-					{/* <div>
-            <label className="block text-sky-600 mb-2">Last Name*</label>
-            <input
-              type="text"
-              placeholder="Your Last Name"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              className="w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
-            />
-            {errors.lastName && (
-              <p className="text-red-500 text-sm">{errors.lastName}</p>
-            )}
-          </div> */}
 					<div>
 						<label className='block text-sky-600 mb-2'>Email*</label>
 						<input
@@ -133,43 +120,6 @@ function BookingDetails() {
 					</div>
 				</div>
 
-				{/* Additional Information */}
-				<div>
-					<h3 className='text-xl font-semibold text-sky-700 mb-4'>
-						Provide Additional Information
-					</h3>
-					<div className='grid grid-cols-1 md:grid-cols-2 gap-6'>
-						<div>
-							<label className='block text-sky-600 mb-2'>Flight Number</label>
-							<input
-								type='text'
-								placeholder='e.g., UA123, Virgin45'
-								value={flightNumber}
-								onChange={(e) => setFlightNumber(e.target.value)}
-								className='w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
-							/>
-						</div>
-						<div>
-							<label className='block text-sky-600 mb-2'>Pickup Sign</label>
-							<input
-								type='text'
-								placeholder='Your Pickup Sign'
-								value={pickupSign}
-								onChange={(e) => setPickupSign(e.target.value)}
-								className='w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
-							/>
-						</div>
-						<div className='md:col-span-2'>
-							<label className='block text-sky-600 mb-2'>Notes</label>
-							<textarea
-								placeholder='Write here...'
-								value={notes}
-								onChange={(e) => setNotes(e.target.value)}
-								className='w-full px-4 py-3 bg-sky-50 border border-sky-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500'
-							></textarea>
-						</div>
-					</div>
-				</div>
 
 				{/* Payment Method */}
 				<div>
