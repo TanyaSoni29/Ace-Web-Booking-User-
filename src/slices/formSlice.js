@@ -7,20 +7,13 @@ const initialState = {
 	forms: [], // All forms
 	form: {
 		// Location Form Fields
-		details: '',
-		email: '',
-		durationText: '',// Vehicle Selection Form Field
-		durationMinutes: '', // Booking Details Form Fields
-		passengerName: '',
-		passengers: '',
 		pickupAddress: '',
-    pickupDateTime: '',
-    pickupPostCode: '',
-    destinationAddress: "",
-    destinationPostCode: "",
-    price: "",
-    bookedByName: "",
-
+		destinationAddress: '',
+		pickupDateTime: '',// Vehicle Selection Form Field
+		passengers: '', // Booking Details Form Fields
+		bookedByName: '',
+		email: '',
+		phoneNumber: '',
 	},
 	loading: false,
 	error: null, // Optional: for error handling

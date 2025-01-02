@@ -1,142 +1,88 @@
 
-import { useState, } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
-import { AUTH_TOKEN } from "../../service/authConfig"; // Import the token
+import  { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-function BookingForm() {
-  const navigate = useNavigate();
+function BookingHistory() {
+    const [bookingHistory, setBookingHistory] = useState([]);
+    const navigate = useNavigate();
 
-  const [formData, setFormData] = useState({
-    details: "",
-    email: "",
-    durationText: "22",
-    durationMinutes: 22,
-    isAllDay: false,
-    passengerName: "Abhisehk ",
-    passengers: 2,
-    paymentStatus: 0,
-    scope: 0,
-    phoneNumber: "",
-    pickupAddress: "ASDA Gill",
-    pickupDateTime: "2024-12-31T15:29",
-    pickupPostCode: "SP8 4QA",
-    destinationAddress: "Tesco Shaftesbury",
-    destinationPostCode: "SP7 8PF",
-    recurrenceRule: null,
-    recurrenceID: null,
-    price: 16,
-    priceAccount: 0,
-    chargeFromBase: true,
-    userId: null,
-    returnDateTime: null,
-    vias: [],
-    accountNumber: 9999,
-    bookedByName: "Abhishek Singh",
-    bookingId: null,
-    updatedByName: "",
-    isASAP: false,
-  });
+    useEffect(() => {
+        const storedHistory = JSON.parse(localStorage.getItem('bookingHistory')) || [];
+        setBookingHistory(storedHistory);
+    }, []);
 
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const handleNewBooking = () => {
+        navigate('/locationForm');
+    };
 
-    // Convert specific fields to the correct data type
-    const formattedValue = ["price", "durationMinutes", "passengers"].includes(
-      name
-    )
-      ? Number(value)
-      : type === "checkbox"
-      ? checked
-      : value;
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-100 to-sky-200 p-6">
+            <div className="max-w-8xl mx-auto bg-white p-8 rounded-xl shadow-lg space-y-6">
+                <div className="flex justify-between items-center">
+                    <h2 className="text-3xl font-semibold text-sky-800">
+                        Your Booking History
+                    </h2>
+                    <button
+                        onClick={handleNewBooking}
+                        className="bg-gradient-to-r from-sky-600 to-blue-500 text-white py-2 px-4 rounded-lg hover:from-sky-700 hover:to-blue-700 transition-all duration-300 shadow-md"
+                    >
+                        New Booking
+                    </button>
+                </div>
 
-    setFormData({ ...formData, [name]: formattedValue });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      console.log("Submitting form data:", formData);
-
-      // Send POST request to the API with token
-      const response = await axios.post(
-        "https://dev.ace-api.1soft.co.uk/api/Bookings/Create",
-        formData,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${AUTH_TOKEN}`, // Include the token here
-          },
-        }
-      );
-
-      console.log("API Response:", response.data);
-
-      alert("Booking Created Successfully!");
-
-      // Navigate to confirmation page after submission
-      navigate("/");
-    } catch (error) {
-      console.error("Error submitting form:", error);
-      alert("Failed to submit form. Please try again.");
-    }
-  };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-r from-blue-50 to-blue-100 flex items-center justify-center p-6">
-      <form
-        className="bg-white p-8 rounded-lg shadow-xl w-full max-w-4xl space-y-6"
-        onSubmit={handleSubmit}
-      >
-        <h2 className="text-2xl font-bold text-blue-700 text-center">
-          Booking Form
-        </h2>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Loop through fields dynamically */}
-          {Object.keys(formData).map((key) => (
-            <div key={key}>
-              <label className="block text-sm font-medium text-gray-700">
-                {key}
-              </label>
-              {typeof formData[key] === "boolean" ? (
-                <input
-                  type="checkbox"
-                  name={key}
-                  checked={formData[key]}
-                  onChange={handleInputChange}
-                  className="h-4 w-4 border-gray-300 rounded"
-                />
-              ) : (
-                <input
-                  type={
-                    typeof formData[key] === "number"
-                      ? "number"
-                      : key.includes("DateTime")
-                      ? "datetime-local"
-                      : "text"
-                  }
-                  name={key}
-                  value={formData[key] || ""}
-                  onChange={handleInputChange}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg bg-white focus:ring-2 focus:ring-blue-400"
-                  placeholder={`Enter ${key}`}
-                />
-              )}
+                {bookingHistory.length > 0 ? (
+                    <div className="overflow-x-auto">
+                        <table className="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                            <thead className="bg-sky-600 text-white">
+                                <tr>
+                                    <th className="px-4 py-2 text-left">Reservation #</th>
+                                    <th className="px-4 py-2 text-left">Date & Time</th>
+                                    <th className="px-4 py-2 text-left">From</th>
+                                    <th className="px-4 py-2 text-left">To</th>
+                                    <th className="px-4 py-2 text-left">Vehicle</th>
+                                    <th className="px-4 py-2 text-left">Price</th>
+                                    <th className="px-4 py-2 text-left">Payment Method</th>
+                                    <th className="px-4 py-2 text-left">Customer</th>
+                                    <th className="px-4 py-2 text-left">Contact</th>
+                                    <th className="px-4 py-2 text-left">Flight Number</th>
+                                    <th className="px-4 py-2 text-left">Pickup Sign</th>
+                                    <th className="px-4 py-2 text-left">Notes</th>
+                                    <th className="px-4 py-2 text-left">Booking Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {bookingHistory.map((booking, index) => (
+                                    <tr key={index} className="hover:bg-gray-100">
+                                        <td className="border px-4 py-2">{booking.reservationNumber}</td>
+                                        <td className="border px-4 py-2">{booking.date} {booking.time}</td>
+                                        <td className="border px-4 py-2">{booking.from}</td>
+                                        <td className="border px-4 py-2">{booking.to}</td>
+                                        <td className="border px-4 py-2">{booking.vehicleName}</td>
+                                        <td className="border px-4 py-2">{booking.price}</td>
+                                        <td className="border px-4 py-2">{booking.paymentMethod}</td>
+                                        <td className="border px-4 py-2">
+                                            {booking.firstName} {booking.lastName}
+                                        </td>
+                                        <td className="border px-4 py-2">
+                                            {booking.phone} <br /> {booking.email}
+                                        </td>
+                                        <td className="border px-4 py-2">{booking.flightNumber}</td>
+                                        <td className="border px-4 py-2">{booking.pickupSign}</td>
+                                        <td className="border px-4 py-2">{booking.notes}</td>
+                                        <td className="border px-4 py-2">{booking.bookingDate}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                ) : (
+                    <p className="text-gray-600 text-center">
+                        You have no booking history yet. Start a new booking to see it here.
+                    </p>
+                )}
             </div>
-          ))}
         </div>
-
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 transition-all duration-300"
-        >
-          Submit
-        </button>
-      </form>
-    </div>
-  );
+    );
 }
 
-export default BookingForm;
+export default BookingHistory;
