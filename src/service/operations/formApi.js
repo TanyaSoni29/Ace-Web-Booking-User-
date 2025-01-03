@@ -6,21 +6,6 @@ import { AUTH_TOKEN } from '../authConfig'; // Import the token
 
 const { GET_ALL_FORMS, CREATE_FORM } = bookingformEndpoints;
 
-// Fetch all forms
-export const getAllForms = async (token) => {
-	try {
-		const response = await apiConnector('GET', GET_ALL_FORMS, null, {
-			Authorization: `Bearer ${token}`,
-		});
-
-		console.log('Get All Forms API Response:', response);
-		return response.data;
-	} catch (error) {
-		console.error('Get All Forms API Error:', error);
-		return [];
-	}
-};
-
 export const createForm = async (data) => {
 	try {
 		const payload = {

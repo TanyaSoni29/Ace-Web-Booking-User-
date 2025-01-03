@@ -12,5 +12,5 @@ export const bookingformEndpoints = {
 	GET_FORM_BY_ID: (id) => `${BASE_URL}/api/Bookings/Create/${id}`, // Get form by ID
 	CREATE_FORM: `${BASE_URL}/api/Bookings/Create`, // Create a new form
 	UPDATE_FORM: (id) => `${BASE_URL}/api/Bookings/Create/${id}`, // Update form by ID
-	DELETE_FORM: (id) => `${BASE_URL}/api/Bookings/Create/${id}`, // Delete form by ID
+	DELETE_FORM: (id) => `${BASE_URL}/api/Bookings/Cancel/${id}`, // Delete form by ID
   };

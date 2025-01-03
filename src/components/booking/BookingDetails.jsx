@@ -65,7 +65,7 @@ function BookingDetails() {
 			dispatch(resetFormData());
 
 			// Navigate to confirmation page
-			navigate('/confirmation');
+			navigate('/');
 		} catch (error) {
 			console.error('Error submitting form:', error);
 			alert('Failed to submit form. Please try again.');

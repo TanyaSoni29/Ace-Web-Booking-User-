@@ -1,7 +1,6 @@
 /** @format */
 
 import { createSlice } from '@reduxjs/toolkit';
-import { getAllForms } from '../service/operations/formApi';
 
 const initialState = {
 	forms: [], // All forms
