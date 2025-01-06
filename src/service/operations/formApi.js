@@ -1,5 +1,3 @@
-/** @format */
-
 import { apiConnector } from '../apiConnector';
 import { bookingformEndpoints } from '../api';
 import { AUTH_TOKEN } from '../authConfig'; // Import the token
