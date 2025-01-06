@@ -52,64 +52,93 @@ const AuthForm = () => {
 	};
 
 	return (
-		<div className='flex justify-center items-center h-screen bg-cover bg-center bg-no-repeat'>
-			<div className='flex justify-center items-center w-full md:w-[40vh] p-4 md:p-0 backdrop-blur-lg rounded-lg'>
-				<div className='bg-white bg-opacity-85 rounded-lg w-full shadow-lg p-6 flex flex-col items-center'>
-					<h2 className='text-2xl text-blue-700 font-bold mb-6'>
+		<div className='flex justify-center items-center min-h-screen bg-gradient-to-br from-blue-500 to-blue-800'>
+			<div className='w-full max-w-md bg-white shadow-lg rounded-lg overflow-hidden'>
+				<div className='p-6'>
+					<h2 className='text-3xl font-bold text-blue-700 text-center mb-4'>
 						{isSignUp ? 'Sign up' : 'Sign in'}
 					</h2>
+					<p className=' text-gray-500 text-center mb-6'>
+						{isSignUp
+							? 'Create an account to get started.'
+							: 'Welcome back! Please login to your account.'}
+					</p>
 
-					<form
-						onSubmit={handleSubmit}
-						className='w-full flex flex-col items-center'
-					>
-						<input
-							type='email'
-							name='email'
-							placeholder='Enter your email'
-							className='w-5/6 p-3 mb-4 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-700'
-							value={formData.email}
-							onChange={handleChange}
-							required
-						/>
-						<input
-							type='password'
-							name='password'
-							placeholder='Enter your password'
-							className='w-5/6 p-3 mb-4 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-700'
-							value={formData.password}
-							onChange={handleChange}
-							required
-						/>
-						{isSignUp && (
+					<form onSubmit={handleSubmit} className='space-y-4'>
+						<div>
+							<label
+								htmlFor='email'
+								className='block bg-white text-gray-600 font-medium mb-1'
+							>
+								Email Address
+							</label>
 							<input
-								type='password'
-								name='confirmPassword'
-								placeholder='Confirm your password'
-								className='w-5/6 p-3 mb-4 bg-white border border-gray-300 rounded focus:outline-none focus:border-blue-700'
-								value={formData.confirmPassword}
+								type='email'
+								name='email'
+								placeholder='Enter your email'
+								className='w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500'
+								value={formData.email}
 								onChange={handleChange}
 								required
 							/>
+						</div>
+
+						<div>
+							<label
+								htmlFor='password'
+								className='block text-gray-600 font-medium mb-1'
+							>
+								Password
+							</label>
+							<input
+								type='password'
+								name='password'
+								placeholder='Enter your password'
+								className='w-full p-3 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500'
+								value={formData.password}
+								onChange={handleChange}
+								required
+							/>
+						</div>
+
+						{isSignUp && (
+							<div>
+								<label
+									htmlFor='confirmPassword'
+									className='block text-gray-600 font-medium mb-1'
+								>
+									Confirm Password
+								</label>
+								<input
+									type='password'
+									name='confirmPassword'
+									placeholder='Confirm your password'
+									className='w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring focus:ring-blue-500'
+									value={formData.confirmPassword}
+									onChange={handleChange}
+									required
+								/>
+							</div>
 						)}
+
 						<button
 							type='submit'
-							className='bg-blue-700 text-white py-3 w-5/6 rounded font-bold hover:bg-gray-800 transition duration-300'
+							className='w-full bg-blue-700 text-white py-3 rounded-lg font-bold hover:bg-blue-800 transition duration-300'
 						>
-							{isSignUp ? 'Sign up' : 'Sign in'}
+							{isSignUp ? 'Create Account' : 'Log In'}
 						</button>
 					</form>
 
-					<p className='mt-4 text-sm'>
+					<p className='mt-6 text-center text-sm'>
 						{isSignUp ? (
 							<>
 								Already have an account?{' '}
 								<a
 									href='#'
 									onClick={toggleForm}
-									className='text-blue-700 hover:underline'
+									className='text-blue-700 font-medium hover:underline'
 								>
-									Sign in
+									Log In
 								</a>
 							</>
 						) : (
@@ -118,9 +147,9 @@ const AuthForm = () => {
 								<a
 									href='#'
 									onClick={toggleForm}
-									className='text-blue-700 hover:underline'
+									className='text-blue-700 font-medium hover:underline'
 								>
-									Sign up
+									Create one
 								</a>
 							</>
 						)}
