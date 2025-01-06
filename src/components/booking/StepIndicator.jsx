@@ -4,9 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FaCheck } from 'react-icons/fa';
 
 const steps = [
-	{ path: '/', label: 'Location' },
+	{ path: '/locationform', label: 'Location' },
 	{ path: '/select-vehicle', label: 'Vehicle Selection' },
-	{ path: '/booking-details', label: 'Booking Details' },
+	// { path: '/booking-details', label: 'Booking Details' },
 	{ path: '/confirmation', label: 'Confirmation' },
 ];
 
