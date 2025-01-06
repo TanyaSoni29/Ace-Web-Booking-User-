@@ -1,6 +1,6 @@
 /** @format */
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateFormData } from '../../slices/formSlice';
@@ -17,6 +17,26 @@ function LocationForm() {
 
 	// Fetch existing data from Redux (if any) to prefill the form
 	const formData = useSelector((state) => state.forms.form);
+
+	const [currentDateTime, setCurrentDateTime] = useState('');
+
+	useEffect(() => {
+		// Function to get the current date and time in the required format
+		const getCurrentDateTime = () => {
+			const now = new Date();
+			const year = now.getFullYear();
+			const month = String(now.getMonth() + 1).padStart(2, '0'); // Add leading zero
+			const day = String(now.getDate()).padStart(2, '0'); // Add leading zero
+			const hours = String(now.getHours()).padStart(2, '0'); // Add leading zero
+			const minutes = String(now.getMinutes()).padStart(2, '0'); // Add leading zero
+
+			// Format: YYYY-MM-DDTHH:MM
+			return `${year}-${month}-${day}T${hours}:${minutes}`;
+		};
+
+		// Set the current date and time
+		setCurrentDateTime(getCurrentDateTime());
+	}, []);
 
 	// States for pickup and destination details
 	const [pickupAddress, setPickupAddress] = useState(
@@ -141,6 +161,8 @@ function LocationForm() {
 					<div className='flex items-center gap-2'>
 						<input
 							type='datetime-local'
+							value={currentDateTime}
+							onChange={(e) => setCurrentDateTime(e.target.value)} // Update the state on user input
 							className='p-2 bg-white border rounded-lg focus:ring-2 focus:ring-blue-500'
 						/>
 						<label className='flex items-center gap-2 text-gray-700 cursor-pointer'>
@@ -229,10 +251,13 @@ function LocationForm() {
 				</div>
 
 				<div className='text-center'>
-						<button onClick={handleSwitch} className='p-2 text-sky-600'>
+					<button
+						onClick={handleSwitch}
+						className='p-2 text-sky-600'
+					>
 						<LuArrowDownUp />
-						</button>
-					</div>
+					</button>
+				</div>
 
 				{/* Destination Address */}
 				<div className='grid grid-cols-2 gap-4 mb-4'>

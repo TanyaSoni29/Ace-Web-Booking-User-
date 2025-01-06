@@ -12,26 +12,28 @@ function VehicleSelection() {
 	// Fetch booking details from Redux store
 	const bookingDetails = useSelector((state) => state.forms.form);
 
-	const [selectedPassengers, setSelectedPassengers] = useState(
-		bookingDetails.passengers || null
-	);
+	const [selectedCar, setSelectedCar] = useState(null);
 
 	// List of available vehicles
 	const vehicles = [
-		{ passengers: 2 },
-		{ passengers: 4 },
-		{ passengers: 5 },
-		{ passengers: 6 },
+		{ brand: 'Toyota Prius', price: 20 },
+		{ brand: 'Honda Civic', price: 25 },
+		{ brand: 'BMW X5', price: 45 },
+		{ brand: 'Mercedes E-Class', price: 50 },
+		{ brand: 'Audi A6', price: 55 },
+		{ brand: 'Tesla Model 3', price: 65 },
+		{ brand: 'Ford Mustang', price: 70 },
+		{ brand: 'Chevrolet Malibu', price: 35 },
 	];
 
 	const handleVehicleSelect = (vehicle) => {
-		setSelectedPassengers(vehicle.passengers);
-		dispatch(updateFormData({ passengers: vehicle.passengers })); // Update Redux state
+		setSelectedCar(vehicle);
+		dispatch(updateFormData({ selectedCar: vehicle })); // Update Redux state
 	};
 
 	const handleSubmit = () => {
-		if (!selectedPassengers) {
-			alert('Please select a passenger count.');
+		if (!selectedCar) {
+			alert('Please select a vehicle.');
 			return;
 		}
 
@@ -45,28 +47,29 @@ function VehicleSelection() {
 				{/* Vehicle Selection */}
 				<div className='bg-white p-6 rounded-lg shadow-lg'>
 					<h2 className='text-2xl font-bold text-sky-600 mb-4'>
-						Select Passengers
+						Select Your Vehicle
 					</h2>
-					<div className='space-y-4'>
+					<div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
 						{vehicles.map((vehicle, index) => (
-							<button
+							<div
 								key={index}
 								onClick={() => handleVehicleSelect(vehicle)}
-								className={`flex items-center justify-between p-4 border rounded-lg transition duration-300 w-full ${
-									selectedPassengers === vehicle.passengers
+								className={`p-4 border rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${
+									selectedCar?.brand === vehicle.brand
 										? 'bg-sky-600 text-white border-sky-600'
 										: 'bg-white text-gray-900 border-gray-300 hover:bg-sky-100'
 								}`}
 							>
-								<h3 className='text-lg font-semibold'>
-									{vehicle.passengers} Passengers
-								</h3>
-							</button>
+								<h3 className='text-lg font-semibold'>{vehicle.brand}</h3>
+								<p className='text-gray-500'>
+									<span className='font-bold'>£{vehicle.price}</span> per ride
+								</p>
+							</div>
 						))}
 					</div>
 				</div>
 
-				{/* Booking Summary */}
+				{/* Booking Summary with Map */}
 				<div className='bg-white p-6 rounded-lg shadow-lg'>
 					<h3 className='text-xl font-bold text-sky-600 mb-4'>
 						Booking Summary
@@ -84,13 +87,25 @@ function VehicleSelection() {
 							<span className='font-semibold'>Pickup Date & Time:</span>{' '}
 							{bookingDetails.pickupDateTime}
 						</p>
-						{selectedPassengers && (
+						{selectedCar && (
 							<p className='text-gray-800'>
-								<span className='font-semibold'>Passengers:</span>{' '}
-								{selectedPassengers}
+								<span className='font-semibold'>Selected Car:</span> {selectedCar.brand} (£
+								{selectedCar.price})
 							</p>
 						)}
 					</div>
+
+					{/* Map Section */}
+					<div className='w-full h-48 bg-gray-200 rounded-lg overflow-hidden'>
+						<iframe
+							src='https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=Gillingham+Station'
+							title='Google Maps'
+							className='w-full h-full'
+							allowFullScreen
+						></iframe>
+					</div>
+
+					{/* Submit Button */}
 					<button
 						className='mt-4 w-full bg-cyan-600 text-white py-2 rounded-lg hover:bg-cyan-700 transition duration-300'
 						onClick={handleSubmit}
