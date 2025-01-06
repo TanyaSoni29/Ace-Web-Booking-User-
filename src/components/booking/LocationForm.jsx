@@ -228,6 +228,12 @@ function LocationForm() {
 					</div>
 				</div>
 
+				<div className='text-center'>
+						<button onClick={handleSwitch} className='p-2 text-sky-600'>
+						<LuArrowDownUp />
+						</button>
+					</div>
+
 				{/* Destination Address */}
 				<div className='grid grid-cols-2 gap-4 mb-4'>
 					<div>
