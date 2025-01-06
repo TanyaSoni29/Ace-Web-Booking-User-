@@ -15,13 +15,13 @@ function App() {
 			<Routes>
 				{/* Login Route */}
 				<Route
-					path='/login'
+					path='/'
 					element={<Login />}
 				/>
 
 				{/* Booking History Route - Redirect here after login */}
 				<Route
-					path='/'
+					path='/bookinghistory'
 					element={<BookingHistory />}
 				/>
 

@@ -48,7 +48,7 @@ const AuthForm = () => {
 			console.log('Sign In data:', formData);
 		}
 
-		navigate('/');
+		navigate('/bookinghistory');
 	};
 
 	return (
