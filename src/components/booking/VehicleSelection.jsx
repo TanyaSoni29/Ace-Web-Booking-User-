@@ -5,6 +5,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { updateFormData } from '../../slices/formSlice';
 
+
+
 function VehicleSelection() {
 	const dispatch = useDispatch();
 	const navigate = useNavigate();
@@ -46,7 +48,7 @@ function VehicleSelection() {
 			<div className='max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8'>
 				{/* Vehicle Selection */}
 				<div className='bg-white p-6 rounded-lg shadow-lg'>
-					<h2 className='text-2xl font-bold text-sky-600 mb-4'>
+					<h2 className='text-2xl font-bold text-blue-600 mb-4'>
 						Select Your Vehicle
 					</h2>
 					<div className='grid grid-cols-1 sm:grid-cols-2 gap-6'>
@@ -56,7 +58,7 @@ function VehicleSelection() {
 								onClick={() => handleVehicleSelect(vehicle)}
 								className={`p-4 border rounded-lg cursor-pointer transition-transform transform hover:scale-105 ${
 									selectedCar?.brand === vehicle.brand
-										? 'bg-sky-600 text-white border-sky-600'
+										? 'bg-blue-600 text-white border-blue-600'
 										: 'bg-white text-gray-900 border-gray-300 hover:bg-sky-100'
 								}`}
 							>
@@ -71,7 +73,7 @@ function VehicleSelection() {
 
 				{/* Booking Summary with Map */}
 				<div className='bg-white p-6 rounded-lg shadow-lg'>
-					<h3 className='text-xl font-bold text-sky-600 mb-4'>
+					<h3 className='text-xl font-bold text-blue-600 mb-4'>
 						Booking Summary
 					</h3>
 					<div className='mb-4 space-y-2'>
@@ -107,7 +109,7 @@ function VehicleSelection() {
 
 					{/* Submit Button */}
 					<button
-						className='mt-4 w-full bg-cyan-600 text-white py-2 rounded-lg hover:bg-cyan-700 transition duration-300'
+						className='mt-4 w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-cyan-700 transition duration-300'
 						onClick={handleSubmit}
 					>
 						Next
